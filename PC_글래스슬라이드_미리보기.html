@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Glass Slide v0.4 · 미리보기</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;--accent:#e9dfd5}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#151519;color:#f0edeb;display:flex;justify-content:center;align-items:center;padding:28px 16px}
+.shell{max-width:980px;width:100%;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:34px;align-items:center}
+.eyebrow{font-size:12px;letter-spacing:.24em;color:#a9a5a3;text-transform:uppercase;font-weight:650}
+h1{font-size:clamp(27px,4.5vw,46px);font-weight:520;letter-spacing:-.06em;margin:12px 0 8px}
+.sub{font-size:14px;color:#a9a6a5;line-height:1.8;margin:0 0 25px}
+.canvas-wrap{width:100%;padding:14px;background:#222226;border:1px solid #37373c;border-radius:26px;box-shadow:0 35px 75px #0008}
+.phone{position:relative;overflow:hidden;aspect-ratio:1.04/1;border-radius:15px;isolation:isolate;background:#43464c;transition:aspect-ratio .45s ease;}
+.phone.folded{aspect-ratio: .55 / 1}
+.scene{position:absolute;inset:0;background-color:#727478;background-image:radial-gradient(ellipse 65% 43% at 78% 67%,#e4c5ab 0%,#cfb5a3 37%,transparent 88%),radial-gradient(ellipse 52% 68% at 15% 22%,#647989 5%,transparent 95%),linear-gradient(132deg,#323f50 2%,#6b7480 40%,#8f7b7c 69%,#dfb99a 100%);background-position:center;background-size:cover;transition:transform 1s ease}
+.scene.photo{background-image:none}
+.scene:after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,#171d2312 0%,transparent 45%,#090a101c 100%)}
+.film{position:absolute;inset:0;pointer-events:none;opacity:.11;background-image:url('data:image/svg+xml,%3Csvg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity=".35"/%3E%3C/svg%3E');mix-blend-mode:overlay}
+.pane{position:absolute;top:0;bottom:0;width:53%;backdrop-filter:blur(23px) saturate(.72) brightness(1.16);-webkit-backdrop-filter:blur(23px) saturate(.72) brightness(1.16);background:linear-gradient(125deg,#e2e2e322,#e8e9ec66 52%,#e0d4c83b);z-index:3;will-change:transform}
+.pane.left{left:0;border-right:1px solid #fff8;box-shadow:inset -12px 0 24px #fff2}
+.pane.right{right:0;border-left:1px solid #fff9;box-shadow:inset 12px 0 24px #fff2}
+.pane.left::after,.pane.right::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 8%,#ffffff30 22%,transparent 40%,#ffffff18 73%,transparent 94%)}
+.hinge{position:absolute;top:0;bottom:0;left:50%;width:6%;transform:translateX(-50%);background:linear-gradient(to right,transparent,#ffffff24 50%,transparent);pointer-events:none;z-index:4}
+.ui-caption{position:absolute;left:20px;bottom:19px;z-index:1;font-size:11px;letter-spacing:.2em;color:#fffb;pointer-events:none;text-shadow:0 1px 9px #0008}
+.meta{display:flex;justify-content:space-between;gap:8px;margin:13px 6px 1px;font-size:11px;color:#a7a5a4}
+.panel{border:1px solid #3b3a3e;background:#1d1d21;border-radius:22px;padding:27px}
+.panel h2{font-size:18px;font-weight:530;margin:0 0 8px;letter-spacing:-.025em}
+.panel p{font-size:12px;line-height:1.8;color:#a9a7a5;margin:0 0 20px}
+button{font:inherit;background:#e6dfda;color:#262428;border:0;border-radius:11px;padding:12px 15px;font-size:13px;cursor:pointer}
+button.secondary{background:#303036;color:#ece7e3;border:1px solid #555159}
+.btnrow{display:flex;gap:9px;flex-wrap:wrap}.btnrow>button{flex:1;min-width:85px}
+.range-row{display:flex;justify-content:space-between;font-size:12px;color:#bcb9b7;margin:25px 0 8px}
+input[type=range]{width:100%;accent-color:#e9dfd9;cursor:pointer}
+label.upload{display:block;cursor:pointer;padding:13px;text-align:center;border-radius:10px;border:1px dashed #6a6669;margin-top:18px;color:#dad4d0;font-size:13px}
+input[type=file]{display:none}
+.modes{display:flex;gap:8px;margin:14px 0 0}.modes button{flex:1}
+.footnote{font-size:11px!important;color:#989596!important;margin-top:20px!important}
+@media(max-width:720px){.shell{max-width:520px;display:flex;flex-direction:column;gap:24px}.canvas-wrap{max-width:480px}.panel{width:100%}}
+</style></head>
+<body><main class="shell">
+<section><div class="eyebrow">Portal Open / Prototype 0.4</div><h1>Glass Slide</h1>
+<p class="sub">반투명 유리 두 장이 조용히 좌우로 밀려나고,<br>그 뒤에 있던 풍경이 제 빛을 되찾는 순간.</p>
+<div class="canvas-wrap"><div class="phone" id="phone" aria-label="슬라이드 애니메이션 미리보기">
+<div class="scene" id="scene"></div><div class="film"></div><div class="ui-caption">A quieter kind of opening.</div>
+<div class="pane left" id="left"></div><div class="pane right" id="right"></div><div class="hinge" id="hinge"></div>
+</div><div class="meta"><span>OPTICAL GLASS · CINEMATIC</span><span id="state">OPEN 100%</span></div></div>
+</section>
+<section class="panel"><h2>움직임 확인</h2><p>포털, 캐릭터, 네온 없이 화면 전환의 질감만 남겼어. 가장 잘 어울리는 사진을 골라보면 느낌이 달라져.</p>
+<div class="btnrow"><button id="play">▶ 펼침 재생</button><button id="close" class="secondary">유리 닫기</button></div>
+<div class="range-row"><span>유리 열림 진행도</span><span id="percentage">100%</span></div><input type="range" id="progress" min="0" max="100" value="100" aria-label="유리 열림 진행도">
+<div class="modes"><button id="wide" class="secondary">펼친 화면</button><button id="folded" class="secondary">접힌 화면</button></div>
+<label for="photo" class="upload">＋ 내 사진 넣어서 확인하기</label><input type="file" id="photo" accept="image/*">
+<p class="footnote">이 화면은 디자인만 확인하는 미리보기야. 실제 접힘→펼침 자동 감지는 Android 앱의 라이브 배경화면을 폴드8에 적용해야 확인할 수 있어. 시스템 홈 아이콘은 흐려지지 않아.</p>
+</section></main>
+<script>
+(() => {
+ const left=document.getElementById('left'),right=document.getElementById('right'),hinge=document.getElementById('hinge');
+ const range=document.getElementById('progress'),pct=document.getElementById('percentage'),state=document.getElementById('state');
+ const phone=document.getElementById('phone'),scene=document.getElementById('scene');
+ let raf=0,progress=1,photoUrl=null;
+ function ease(x){return x*x*(3-2*x)}
+ function render(p){progress=Math.max(0,Math.min(1,p));const eased=ease(progress);
+  left.style.transform=`translateX(${-108*eased}%)`;
+  right.style.transform=`translateX(${108*eased}%)`;
+  hinge.style.opacity=(1-eased)*.65;
+  range.value=Math.round(progress*100);pct.textContent=Math.round(progress*100)+'%';
+  state.textContent=progress>=.999?'OPEN 100%':progress<=.001?'CLOSED':`OPEN ${Math.round(progress*100)}%`;
+ }
+ function animate(to){cancelAnimationFrame(raf);const from=progress,start=performance.now(),dur=1150*Math.max(.28,Math.abs(to-from));
+  function tick(now){const u=Math.min(1,(now-start)/dur);render(from+(to-from)*ease(u));if(u<1)raf=requestAnimationFrame(tick)}
+  raf=requestAnimationFrame(tick)
+ }
+ document.getElementById('play').onclick=()=>{render(0);animate(1)};
+ document.getElementById('close').onclick=()=>animate(0);
+ range.oninput=e=>{cancelAnimationFrame(raf);render(+e.target.value/100)};
+ document.getElementById('wide').onclick=()=>phone.classList.remove('folded');
+ document.getElementById('folded').onclick=()=>phone.classList.add('folded');
+ document.getElementById('photo').onchange=e=>{const f=e.target.files[0];if(!f)return;
+  if(photoUrl)URL.revokeObjectURL(photoUrl);photoUrl=URL.createObjectURL(f);
+  scene.style.backgroundImage=`url('${photoUrl}')`;scene.classList.add('photo');render(0);animate(1)
+ };
+ render(1)
+})();
+</script></body></html>

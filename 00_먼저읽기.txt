@@ -1,0 +1,14 @@
+GLASS SLIDE v0.4 / GitHub 자동 APK 제작용
+
+중요: 이 ZIP은 APK가 아니라 APK를 자동으로 만들어 주는 GitHub Actions 프로젝트입니다.
+PC에 Android Studio를 설치하지 않아도 됩니다.
+
+1. ZIP 압축 풀기
+2. github.com/new 에서 저장소 생성
+3. 압축을 푼 폴더 안의 파일과 폴더를 전부 저장소에 업로드
+4. Actions > Build Glass Slide APK > Run workflow
+5. Artifacts > GlassSlide-v0.4-debug-APK 다운로드
+6. 내부 app-debug.apk를 갤럭시 Z 폴드8에서 설치
+
+더 자세한 내용은 README.md 참고.
+※ 실제 빌드 성공과 폴드8 펼침 동작은 아직 검증되지 않았습니다.
