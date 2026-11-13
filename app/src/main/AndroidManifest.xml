@@ -1,41 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Only query activities the user can launch; no QUERY_ALL_PACKAGES permission. -->
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent>
-    </queries>
-    <application
-        android:allowBackup="false"
-        android:label="Glass Slide"
-        android:icon="@drawable/portal_icon"
-        android:theme="@style/AppTheme"
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <application android:allowBackup="false" android:label="Glass Slide"
+        android:icon="@drawable/portal_icon" android:theme="@style/AppTheme"
         android:supportsRtl="true">
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout|density|uiMode"
-            android:screenOrientation="unspecified">
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-    
-</activity>
-        <service
-            android:name=".PortalWallpaperService"
-            android:label="Glass Slide 라이브 배경화면"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService" />
-            </intent-filter>
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:resource="@xml/portal_wallpaper" />
+        </activity>
+        <service android:name=".FoldOverlayService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="User-enabled foreground monitoring for a fold-to-open visual effect"/>
         </service>
     </application>
 </manifest>

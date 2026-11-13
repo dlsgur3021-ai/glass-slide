@@ -2,17 +2,15 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
-
 android {
     namespace = "com.portalopen.app"
     compileSdk = 36
-
     defaultConfig {
-        applicationId = "com.portalopen.unfoldhome"
+        applicationId = "com.portalopen.app"
         minSdk = 29
         targetSdk = 35
-        versionCode = 5
-        versionName = "0.5.0-launcher"
+        versionCode = 6
+        versionName = "0.6.0"
     }
     kotlinOptions { jvmTarget = "17" }
     compileOptions {
@@ -21,7 +19,8 @@ android {
     }
     buildTypes { release { isMinifyEnabled = false } }
 }
-
 dependencies {
     implementation("androidx.core:core:1.16.0")
+    implementation("androidx.window:window:1.5.1")
+    implementation("androidx.window:window-java:1.5.1")
 }
