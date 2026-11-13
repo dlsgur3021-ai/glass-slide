@@ -205,14 +205,6 @@ class MainActivity : Activity() {
         }
         setContentView(frame)
 
-        val scrim = View(this).apply {
-            background = GradientDrawable(
-                GradientDrawable.Orientation.TOP_BOTTOM,
-                intArrayOf(Color.argb(116, 8, 20, 35), Color.argb(55, 10, 18, 28), Color.argb(157, 9, 15, 25))
-            )
-        }
-        frame.addView(scrim, FrameLayout.LayoutParams(-1, -1))
-
         val wide = wide()
         home = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -255,10 +247,6 @@ class MainActivity : Activity() {
                         .setDuration(if (foldChange) 620L else 380L)
                         .setStartDelay((index % 6 * 22).toLong())
                         .setInterpolator(ease).start()
-                }
-                if (foldChange) {
-                    scrim.alpha = 0.38f
-                    scrim.animate().alpha(1f).setDuration(670L).setInterpolator(ease).start()
                 }
             }
         }
