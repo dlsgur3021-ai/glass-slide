@@ -8,7 +8,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.portalopen.app"
+        applicationId = "com.portalopen.unfoldhome"
         minSdk = 29
         targetSdk = 35
         versionCode = 5
