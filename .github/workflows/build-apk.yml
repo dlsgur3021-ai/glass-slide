@@ -1,4 +1,4 @@
-name: Build Glass Slide APK
+name: Build Unfold Home APK
 
 on:
   workflow_dispatch:
